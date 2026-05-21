@@ -1,19 +1,99 @@
-<form action="https://formspree.io/f/xykveblw" method="POST">
-    <h2>نموذج التسجيل والمتابعة</h2>
-    
-    <label>الاسم الثلاثي:</label>
-    <input type="text" name="الاسم الثلاثي" placeholder="أدخل اسمك الثلاثي" required>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج التسجيل والمتابعة</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background-image: url('2222.png'); 
+            background-size: cover; 
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        form { 
+            background: rgba(15, 23, 42, 0.9);
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 350px; 
+            text-align: right; 
+        }
 
-    <label>السنة الدراسية:</label>
-    <input type="text" name="السنة الدراسية" placeholder="أدخل سنتك الدراسية" required>
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-align: center;
+        }
 
-    <label>رقم الهاتف:</label>
-    <input type="tel" name="رقم الهاتف" placeholder="07xxxxxxxx" required>
+        label { 
+            display: block; 
+            margin-top: 15px; 
+            font-weight: bold; 
+            color: #e2e8f0;
+            font-size: 14px;
+        }
 
-    <label>البريد الإلكتروني:</label>
-    <input type="email" name="الايميل" placeholder="your-email@example.com" required>
+        input { 
+            width: 100%; 
+            padding: 10px; 
+            margin-top: 6px; 
+            box-sizing: border-box; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 8px; 
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
 
-    <input type="hidden" name="_next" value="رابط_صفحتك_الثانية.html">
+        button { 
+            background: #ffffff;
+            color: #000; 
+            border: none; 
+            padding: 12px; 
+            margin-top: 25px; 
+            width: 100%; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        button:hover { background: #e2e8f0; }
+    </style>
+</head>
+<body>
 
-    <button type="submit">متابعة إلى الاختيارات</button>
-</form>
+    <form action="https://formspree.io/f/xykveblw" method="POST">
+        <h2>نموذج التسجيل والمتابعة</h2>
+        
+        <label>الاسم الثلاثي:</label>
+        <input type="text" name="الاسم الثلاثي" placeholder="أدخل اسمك الثلاثي" required>
+
+        <label>السنة الدراسية:</label>
+        <input type="text" name="السنة الدراسية" placeholder="أدخل سنتك الدراسية" required>
+
+        <label>رقم الهاتف:</label>
+        <input type="tel" name="رقم الهاتف" placeholder="07xxxxxxxx" required>
+
+        <label>البريد الإلكتروني:</label>
+        <input type="email" name="الايميل" placeholder="your-email@example.com" required>
+
+        <input type="hidden" name="_next" value="options.html">
+
+        <button type="submit">التالي: اختيار الجانب التقني</button>
+    </form>
+
+</body>
+</html>
