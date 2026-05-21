@@ -1,106 +1,62 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>منصة التخصصات</title>
-    <style>
-        body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
-        .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #0ea5e9; }
-        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
-        .hidden { display: none; }
-        
-        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
-        .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
-        .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
-        .level-item:nth-child(4) { background: #4a2d5f; border-color: #7e22ce; }
-        
-        #material-input-box { margin-top: 20px; display: none; }
-    </style>
-</head>
-<body>
+<script>
+    // تخزين بيانات النموذج الأولي في متغير
+    let formData = {};
 
-    <div id="form-section" class="box">
-        <form id="contactForm" action="https://formspree.io/f/xykveblw" method="POST">
-            <h2>نموذج التسجيل</h2>
-            <input type="text" name="الاسم" placeholder="الاسم الثلاثي" required>
-            <input type="text" name="السنة" placeholder="السنة الدراسية" required>
-            <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
-            <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
-            <input type="hidden" name="المادة_المختارة" id="hidden-material">
-            <button type="submit" class="btn">متابعة</button>
-        </form>
-    </div>
-
-    <div id="options-section" class="box hidden">
-        <h2>اختر التخصص:</h2>
-        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الإلكتروني</button>
-        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الميكانيكي</button>
-        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب البرمجي</button>
-    </div>
-
-    <div id="detail-section" class="box hidden">
-        <h2 id="detail-title"></h2>
-        <img id="detail-image" src="" class="detail-img">
-        <div class="levels-grid" id="levels-container"></div>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // حفظ بيانات المستخدم في الكائن
+        const data = new FormData(form);
+        data.forEach((value, key) => { formData[key] = value; });
         
-        <div id="material-input-box">
-            <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
-            <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ</button>
-        </div>
-        
-        <button class="btn" style="background:#475569; margin-top:20px" onclick="location.reload()">العودة</button>
-    </div>
+        document.getElementById('form-section').style.display = 'none';
+        document.getElementById('options-section').style.display = 'block';
+    });
 
-    <script>
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-            .then(() => {
-                document.getElementById('form-section').style.display = 'none';
-                document.getElementById('options-section').style.display = 'block';
-            });
+    function showDetail(title, imgSrc, levels) {
+        formData['التخصص'] = title; // إضافة التخصص للبيانات
+        document.getElementById('detail-title').innerText = title;
+        document.getElementById('detail-image').src = imgSrc;
+        const container = document.getElementById('levels-container');
+        container.innerHTML = '';
+        
+        levels.forEach(level => {
+            const div = document.createElement('div');
+            div.className = 'level-item';
+            div.innerText = level;
+            div.onclick = function() {
+                const inputBox = document.getElementById('material-input-box');
+                if (level === 'Level 3' || level === 'Level 4') {
+                    alert("عذراً، هذا المستوى غير متاح الآن.");
+                    inputBox.style.display = 'none';
+                } else {
+                    formData['المستوى'] = level; // حفظ المستوى
+                    inputBox.style.display = 'block';
+                }
+            };
+            container.appendChild(div);
         });
+        document.getElementById('options-section').style.display = 'none';
+        document.getElementById('detail-section').style.display = 'block';
+    }
 
-        function showDetail(title, imgSrc, levels) {
-            document.getElementById('detail-title').innerText = title;
-            document.getElementById('detail-image').src = imgSrc;
-            const container = document.getElementById('levels-container');
-            container.innerHTML = '';
+    function saveMaterial() {
+        const mat = document.getElementById('user-material').value;
+        if(mat) {
+            formData['المادة_المختارة'] = mat;
             
-            levels.forEach(level => {
-                const div = document.createElement('div');
-                div.className = 'level-item';
-                div.innerText = level;
-                
-                div.onclick = function() {
-                    const inputBox = document.getElementById('material-input-box');
-                    // التحقق من المستوى
-                    if (level === 'Level 3' || level === 'Level 4') {
-                        alert("عذراً، هذا المستوى غير متاح الآن.");
-                        inputBox.style.display = 'none';
-                    } else {
-                        inputBox.style.display = 'block';
-                    }
-                };
-                container.appendChild(div);
+            // إرسال البيانات النهائية إلى Formspree
+            fetch('https://formspree.io/f/xykveblw', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+            })
+            .then(() => {
+                alert("تم إرسال طلبك بنجاح!");
+                location.reload();
             });
-            document.getElementById('options-section').style.display = 'none';
-            document.getElementById('detail-section').style.display = 'block';
+        } else {
+            alert("يرجى كتابة اسم المادة");
         }
-
-        function saveMaterial() {
-            const mat = document.getElementById('user-material').value;
-            if(mat) {
-                document.getElementById('hidden-material').value = mat;
-                alert("تم حفظ المادة: " + mat);
-            }
-        }
-    </script>
-</body>
-</html>
+    }
+</script>
