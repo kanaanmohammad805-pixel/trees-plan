@@ -13,7 +13,18 @@
         .hidden { display: none; }
         
         .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        
+        /* التعديل هنا: إضافة الـ Animation */
+        .level-item { 
+            padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; 
+            font-weight: bold; transition: all 0.4s ease; 
+        }
+        .level-item:hover { 
+            transform: translateY(-10px) scale(1.05); /* ارتفاع وتكبير بسيط */
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); /* ظل خفيف */
+            opacity: 0.9;
+        }
+
         .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
         .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
         .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
@@ -49,7 +60,7 @@
         <div class="levels-grid" id="levels-container"></div>
         
         <div id="material-input-box">
-            <input type="text" id="user-material" placeholder="اكتب اسم المادة التي تريدها...">
+            <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
             <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ المادة المحددة</button>
         </div>
         
@@ -58,25 +69,12 @@
 
     <script>
         const form = document.getElementById('contactForm');
-        
-        // التحقق عند الإرسال من أن المادة قد تم حفظها
         form.addEventListener('submit', function(e) {
             const savedMaterial = document.getElementById('hidden-material').value;
-            if (!savedMaterial) {
-                e.preventDefault();
-                alert("يرجى اختيار مستوى وحفظ اسم المادة أولاً!");
-                return;
-            }
-            
+            if (!savedMaterial) { e.preventDefault(); alert("يرجى اختيار مستوى وحفظ المادة أولاً!"); return; }
             e.preventDefault();
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            }).then(() => {
-                alert("تم إرسال بياناتك بنجاح!");
-                location.reload(); // إعادة تحميل الصفحة بعد الإرسال الناجح
-            });
+            fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+            .then(() => { alert("تم الإرسال!"); location.reload(); });
         });
 
         function showDetail(title, imgSrc, levels) {
@@ -84,19 +82,13 @@
             document.getElementById('detail-image').src = imgSrc;
             const container = document.getElementById('levels-container');
             container.innerHTML = '';
-            
             levels.forEach(level => {
                 const div = document.createElement('div');
                 div.className = 'level-item';
                 div.innerText = level;
                 div.onclick = function() {
-                    const inputBox = document.getElementById('material-input-box');
-                    if (level === 'Level 3' || level === 'Level 4') {
-                        alert("عذراً، هذا المستوى غير متاح الآن.");
-                        inputBox.style.display = 'none';
-                    } else {
-                        inputBox.style.display = 'block';
-                    }
+                    if (level === 'Level 3' || level === 'Level 4') { alert("غير متاح الآن."); document.getElementById('material-input-box').style.display = 'none'; }
+                    else { document.getElementById('material-input-box').style.display = 'block'; }
                 };
                 container.appendChild(div);
             });
@@ -106,12 +98,7 @@
 
         function saveMaterial() {
             const mat = document.getElementById('user-material').value;
-            if(mat) {
-                document.getElementById('hidden-material').value = mat;
-                alert("تم حفظ المادة: " + mat + " بنجاح!");
-            } else {
-                alert("يرجى كتابة اسم المادة!");
-            }
+            if(mat) { document.getElementById('hidden-material').value = mat; alert("تم حفظ المادة: " + mat); }
         }
     </script>
 </body>
