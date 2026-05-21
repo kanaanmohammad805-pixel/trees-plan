@@ -2,38 +2,43 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>اختر الجانب</title>
+    <title>نموذج التسجيل والمتابعة</title>
     <style>
-        body { 
-            background: #0f172a; 
-            color: white; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            font-family: sans-serif; 
-        }
-        .btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid #38bdf8;
-            padding: 20px;
-            margin: 10px;
-            width: 250px;
-            text-align: center;
-            border-radius: 12px;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-        }
-        .btn:hover { background: #38bdf8; }
+        body { font-family: sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 16px; width: 350px; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none; }
+        .btn { display: block; background: rgba(255, 255, 255, 0.1); border: 1px solid #38bdf8; padding: 15px; margin: 10px 0; color: white; text-decoration: none; border-radius: 8px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <h1>اختر التخصص:</h1>
-    <a href="electronics.html" class="btn">الجانب الإلكتروني</a>
-    <a href="mechanical.html" class="btn">الجانب الميكانيكي</a>
-    <a href="programming.html" class="btn">الجانب البرمجي</a>
+
+    <div id="form-section" class="container">
+        <form id="contactForm" action="https://formspree.io/f/xykveblw" method="POST">
+            <h2>نموذج التسجيل</h2>
+            <input type="text" name="الاسم" placeholder="الاسم الثلاثي" required>
+            <input type="text" name="السنة" placeholder="السنة الدراسية" required>
+            <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
+            <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
+            <button type="submit" style="padding:10px; width:100%;">متابعة إلى الاختيارات</button>
+        </form>
+    </div>
+
+    <div id="options-section" class="container hidden">
+        <h1>اختر التخصص:</h1>
+        <a href="electronics.html" class="btn">الجانب الإلكتروني</a>
+        <a href="mechanical.html" class="btn">الجانب الميكانيكي</a>
+        <a href="programming.html" class="btn">الجانب البرمجي</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // نمنع الإرسال التقليدي عشان يظهر الاختيار
+            fetch(form.action, { method: 'POST', body: new FormData(form) });
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('options-section').classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>
