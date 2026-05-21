@@ -2,12 +2,65 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج التسجيل والمتابعة</title>
     <style>
-        body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
-        .box { background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 16px; width: 320px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #38bdf8; background: #1e293b; color: white; box-sizing: border-box; }
-        button, .btn { width: 100%; padding: 12px; margin-top: 15px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; text-decoration: none; display: block; }
+        /* إعدادات الخلفية */
+        body { 
+            background-image: url('2222.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: white; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .box { 
+            background: rgba(15, 23, 42, 0.85); /* خلفية داكنة شفافة */
+            padding: 30px; 
+            border-radius: 20px; 
+            width: 320px; 
+            text-align: center; 
+            box-shadow: 0 10px 32px rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px); /* تأثير زجاجي */
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1); 
+            color: white; 
+            box-sizing: border-box; 
+        }
+
+        button, .btn { 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 10px; 
+            border-radius: 8px; 
+            border: none; 
+            background: #38bdf8; 
+            color: #0f172a; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-decoration: none; 
+            display: block; 
+            font-size: 16px;
+        }
+
+        .btn { background: #38bdf8; color: white; margin-top: 15px; }
         .hidden { display: none; }
+        h2 { margin-bottom: 20px; color: #ffffff; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
