@@ -3,33 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج GitHub الخاص بي</title>
+    <title>نموذج الاستبيان الخاص بي</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; background-color: #f4f4f9; text-align: center; }
-        form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; width: 300px; text-align: right; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        button { background-color: #28a745; color: white; border: none; padding: 10px 15px; margin-top: 15px; width: 100%; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #218838; }
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 50px; 
+            background-color: #f4f4f9; 
+            text-align: center; 
+        }
+        form { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            display: inline-block; 
+            width: 320px; 
+            text-align: right; 
+        }
+        label { 
+            display: block; 
+            margin-top: 12px; 
+            font-weight: bold; 
+            color: #333;
+        }
+        input, textarea { 
+            width: 100%; 
+            padding: 10px; 
+            margin-top: 5px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            font-size: 14px;
+        }
+        button { 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 12px 15px; 
+            margin-top: 20px; 
+            width: 100%; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+        }
+        button:hover { 
+            background-color: #218838; 
+        }
     </style>
 </head>
 <body>
 
-    <h2>استبيان سريع</h2>
+    <h2>نموذج تجميع البيانات</h2>
     
-    <!-- ضع رابط Formspree الخاص بك في الـ action هنا -->
-    <form action="https://formspree.io/f/ضع_رابط_الـ_ID_الخاص_بك_هنا" method="POST">
+    <form action="https://formspree.io/f/xykveblw" method="POST">
         
-        <label for="name">الاسم:</label>
-        <input type="text" id="name" name="الاسم" required>
+        <label for="name">الاسم الكامل:</label>
+        <input type="text" id="name" name="الاسم" placeholder="أدخل اسمك هنا" required>
 
         <label for="email">البريد الإلكتروني:</label>
-        <input type="email" id="email" name="الايميل" required>
+        <input type="email" id="email" name="الايميل" placeholder="example@email.com" required>
 
-        <label for="message">رسالتك أو ملاحظاتك:</label>
-        <textarea id="message" name="الرسالة" rows="4" required></textarea>
+        <label for="message">الرسالة أو الرد:</label>
+        <textarea id="message" name="الرسالة" rows="4" placeholder="اكتب ردك هنا..." required></textarea>
 
-        <button type="submit">إرسال الإجابة</button>
+        <button type="submit">إرسال الرد</button>
     </form>
 
 </body>
