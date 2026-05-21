@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>منصة التخصصات</title>
     <style>
-        body {/* ضع رابط صورتك المباشر مكان الرابط أدناه */
-            background-image: url('nm.png');
+        body { 
+            background-image: url('nm.png'); /* تأكد من صحة مسار الصورة */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -15,29 +15,32 @@
             align-items: center; 
             min-height: 100vh; 
             margin: 0; 
-            font-family: sans-serif;}
-        /* الأنيميشن للكبسات */
+            font-family: sans-serif;
+        }
+
+        /* تنسيق الصندوق ليظهر بوضوح فوق الصورة */
+        .box { 
+            background: rgba(255, 255, 255, 0.9); 
+            padding: 30px; 
+            border-radius: 20px; 
+            width: 90%; 
+            max-width: 500px; 
+            text-align: center; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
         .btn { 
             width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .btn:hover { background: #0ea5e9; transform: scale(1.02); }
-        .btn:active { transform: scale(0.98); }
-
-        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
-        .hidden { display: none; }
-        
-        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { 
-            padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; 
             transition: all 0.3s ease; 
         }
-        .level-item:hover { transform: translateY(-5px); filter: brightness(1.2); }
-        .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
-        .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
-        .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
-        .level-item:nth-child(4) { background: #4a2d5f; border-color: #7e22ce; }
-        
+        .btn:hover { background: #0ea5e9; transform: scale(1.02); }
+
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+
+        .hidden { display: none; }
+        .detail-img { width: 100%; max-width: 300px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
+        .levels-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
+        .level-item { padding: 15px; border-radius: 10px; border: 2px solid #38bdf8; cursor: pointer; font-weight: bold; }
         #material-input-box { margin-top: 20px; display: none; }
     </style>
 </head>
@@ -50,77 +53,64 @@
             <input type="text" name="السنة" placeholder="السنة الدراسية" required>
             <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
             <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
-            <!-- هذا الحقل سيستقبل المادة لاحقاً -->
-            <input type="hidden" name="المادة_المختارة" id="hidden-material">
-            <button type="submit" class="btn">متابعة</button>
+            
+            <input type="hidden" name="التخصص" id="input-takhassos">
+            <input type="hidden" name="المادة" id="input-material">
+            
+            <button type="submit" class="btn" style="display:none"></button> <button type="button" class="btn" onclick="nextStep()">متابعة</button>
         </form>
     </div>
 
     <div id="options-section" class="box hidden">
         <h2>اختر التخصص:</h2>
-        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png', ['Level 1', 'Level 2', 'Level 3', 'Level 4'])">الجانب الإلكتروني</button>
-        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png', ['Level 1', 'Level 2', 'Level 3', 'Level 4'])">الجانب الميكانيكي</button>
-        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png', ['Level 1', 'Level 2', 'Level 3', 'Level 4'])">الجانب البرمجي</button>
+        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png')">الجانب الإلكتروني</button>
+        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png')">الجانب الميكانيكي</button>
+        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png')">الجانب البرمجي</button>
     </div>
 
     <div id="detail-section" class="box hidden">
         <h2 id="detail-title"></h2>
         <img id="detail-image" src="" class="detail-img">
         <div class="levels-grid" id="levels-container"></div>
-        
         <div id="material-input-box">
             <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
-            <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ وإرسال</button>
+            <button class="btn" style="background:#22c55e" onclick="submitFinal()">إرسال التسجيل</button>
         </div>
-        
-        <button class="btn" style="background:#475569; margin-top:20px" onclick="location.reload()">العودة للبداية</button>
+        <button class="btn" style="background:#475569" onclick="location.reload()">العودة للبداية</button>
     </div>
 
     <script>
-        const form = document.getElementById('contactForm');
-        let formData = new FormData();
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            formData = new FormData(form);
+        function nextStep() {
             document.getElementById('form-section').style.display = 'none';
             document.getElementById('options-section').style.display = 'block';
-        });
+        }
 
-        function showDetail(title, imgSrc, levels) {
+        function showDetail(title, imgSrc) {
+            document.getElementById('input-takhassos').value = title;
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-image').src = imgSrc;
+            document.getElementById('options-section').style.display = 'none';
+            document.getElementById('detail-section').style.display = 'block';
+            
             const container = document.getElementById('levels-container');
             container.innerHTML = '';
-            
-            levels.forEach(level => {
+            ['Level 1', 'Level 2', 'Level 3', 'Level 4'].forEach(lvl => {
                 const div = document.createElement('div');
                 div.className = 'level-item';
-                div.innerText = level;
-                div.onclick = function() {
-                    if (level === 'Level 3' || level === 'Level 4') {
-                        alert("عذراً، هذا المستوى غير متاح الآن.");
-                        document.getElementById('material-input-box').style.display = 'none';
-                    } else {
-                        document.getElementById('material-input-box').style.display = 'block';
-                    }
+                div.innerText = lvl;
+                div.onclick = () => {
+                    if (lvl === 'Level 3' || lvl === 'Level 4') alert("غير متاح حالياً");
+                    else document.getElementById('material-input-box').style.display = 'block';
                 };
                 container.appendChild(div);
             });
-            document.getElementById('options-section').style.display = 'none';
-            document.getElementById('detail-section').style.display = 'block';
         }
 
-        function saveMaterial() {
+        function submitFinal() {
             const mat = document.getElementById('user-material').value;
-            if(mat) {
-                formData.append('المادة_المختارة', mat);
-                fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
-                .then(() => alert("تم إرسال بياناتك بنجاح! شكراً لك."))
-                .catch(() => alert("حدث خطأ، يرجى المحاولة لاحقاً."));
-            } else {
-                alert("يرجى كتابة اسم المادة أولاً.");
-            }
+            if(!mat) return alert("اكتب اسم المادة");
+            document.getElementById('input-material').value = mat;
+            document.getElementById('contactForm').submit();
         }
     </script>
 </body>
