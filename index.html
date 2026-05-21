@@ -3,58 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>منصة التخصصات</title>
-    <!-- [نفس الـ style الخاص بك] -->
     <style>
         body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
         .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; }
         input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
+        
+        /* الأنيميشن الأساسي */
+        .btn, .level-item { 
+            transition: all 0.3s ease; 
+            cursor: pointer;
+        }
+        .btn:hover, .level-item:hover { 
+            transform: scale(1.05); 
+            filter: brightness(1.2);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; }
+        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
         .hidden { display: none; }
+        
         .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { padding: 15px; border-radius: 10px; border: 2px solid #38bdf8; cursor: pointer; }
+        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; font-weight: bold; }
+        .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
+        .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
+        .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
+        .level-item:nth-child(4) { background: #4a2d5f; border-color: #7e22ce; }
+        
+        #material-input-box { margin-top: 20px; display: none; }
     </style>
 </head>
 <body>
 
-    <!-- النموذج الرئيسي الذي سيتم إرساله -->
-    <form id="finalForm" action="https://formspree.io/f/xykveblw" method="POST" class="box">
-        
-        <!-- الخطوة 1 -->
-        <div id="step1">
+    <div id="form-section" class="box">
+        <form id="contactForm" action="https://formspree.io/f/xykveblw" method="POST">
             <h2>نموذج التسجيل</h2>
             <input type="text" name="الاسم" placeholder="الاسم الثلاثي" required>
             <input type="text" name="السنة" placeholder="السنة الدراسية" required>
             <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
-            <button type="button" class="btn" onclick="nextStep(2)">متابعة</button>
-        </div>
+            <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
+            <!-- حقول مخفية ستعبأ من الجافا سكريبت -->
+            <input type="hidden" name="التخصص" id="hidden-takhassos">
+            <input type="hidden" name="المستوى" id="hidden-level">
+            <input type="hidden" name="المادة" id="hidden-material">
+            <button type="submit" class="btn">متابعة</button>
+        </form>
+    </div>
 
-        <!-- الخطوة 2 -->
-        <div id="step2" class="hidden">
-            <h2>اختر التخصص:</h2>
-            <input type="hidden" name="التخصص" id="input-takhassos">
-            <button type="button" class="btn" onclick="selectTakhassos('الجانب الإلكتروني')">الجانب الإلكتروني</button>
-            <button type="button" class="btn" onclick="selectTakhassos('الجانب الميكانيكي')">الجانب الميكانيكي</button>
-        </div>
+    <div id="options-section" class="box hidden">
+        <h2>اختر التخصص:</h2>
+        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png')">الجانب الإلكتروني</button>
+        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png')">الجانب الميكانيكي</button>
+        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png')">الجانب البرمجي</button>
+    </div>
 
-        <!-- الخطوة 3 -->
-        <div id="step3" class="hidden">
-            <h2>اكتب المادة:</h2>
-            <input type="text" name="المادة" id="input-madah" required>
-            <button type="submit" class="btn" style="background:#22c55e">إرسال الطلب</button>
+    <div id="detail-section" class="box hidden">
+        <h2 id="detail-title"></h2>
+        <img id="detail-image" src="" class="detail-img">
+        <div class="levels-grid" id="levels-container"></div>
+        <div id="material-input-box">
+            <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
+            <button class="btn" style="background:#22c55e" onclick="finish()">إرسال التسجيل</button>
         </div>
-    </form>
+        <button class="btn" style="background:#475569" onclick="location.reload()">العودة</button>
+    </div>
 
     <script>
-        function nextStep(step) {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step' + step).classList.remove('hidden');
+        // التعامل مع الانتقال الأول
+        document.getElementById('contactForm').onsubmit = function(e) {
+            e.preventDefault();
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('options-section').style.display = 'block';
+        };
+
+        function showDetail(title, imgSrc) {
+            document.getElementById('hidden-takhassos').value = title;
+            document.getElementById('detail-title').innerText = title;
+            document.getElementById('detail-image').src = imgSrc;
+            
+            const container = document.getElementById('levels-container');
+            container.innerHTML = '';
+            ['Level 1', 'Level 2', 'Level 3', 'Level 4'].forEach(lvl => {
+                const div = document.createElement('div');
+                div.className = 'level-item';
+                div.innerText = lvl;
+                div.onclick = () => {
+                    if (lvl === 'Level 3' || lvl === 'Level 4') {
+                        alert("عذراً، هذا المستوى غير متاح الآن.");
+                        document.getElementById('material-input-box').style.display = 'none';
+                    } else {
+                        document.getElementById('hidden-level').value = lvl;
+                        document.getElementById('material-input-box').style.display = 'block';
+                    }
+                };
+                container.appendChild(div);
+            });
+            document.getElementById('options-section').style.display = 'none';
+            document.getElementById('detail-section').style.display = 'block';
         }
 
-        function selectTakhassos(val) {
-            document.getElementById('input-takhassos').value = val;
-            nextStep(3);
+        function finish() {
+            const mat = document.getElementById('user-material').value;
+            if(!mat) { alert("يرجى كتابة اسم المادة"); return; }
+            document.getElementById('hidden-material').value = mat;
+            // إرسال النموذج فعلياً
+            document.getElementById('contactForm').submit();
         }
     </script>
 </body>
