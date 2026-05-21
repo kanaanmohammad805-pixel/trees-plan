@@ -8,11 +8,12 @@
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
-            /* هنا تم وضع رابط الصورة التي أرسلتها لتعمل كخلفية كاملة */
-            background-image: url('https://images.squarespace-cdn.com/content/v1/660c15926ff91965f7001407/04e8d38e-0b01-49b0-bc37-cf136005ae65/2222.png'); 
+            /* تم تعديل المسار ليقرأ الصورة المرفوعة في نفس المستودع مباشرة */
+            background-image: url('2222.png'); 
             background-size: cover; 
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,7 +27,7 @@
 
         h2 {
             color: #ffffff;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
             margin-bottom: 20px;
             font-size: 28px;
         }
@@ -35,9 +36,9 @@
             background: rgba(15, 23, 42, 0.85); /* خلفية داكنة شفافة تتماشى مع ثيم الفضاء الأزرق */
             padding: 30px; 
             border-radius: 16px; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(4px); /* تأثير ضبابي زجاجي رائع */
-            -webkit-backdrop-filter: blur(4px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px); /* تأثير ضبابي زجاجي رائع للخلفية */
+            -webkit-backdrop-filter: blur(6px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: inline-block; 
             width: 350px; 
@@ -70,7 +71,7 @@
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #38bdf8; /* لون أزرق نيوني عند الكتابة يطابق التصميم */
+            border-color: #38bdf8; 
             background: rgba(255, 255, 255, 0.15);
         }
 
@@ -86,7 +87,7 @@
             font-size: 16px; 
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
+            box-shadow: 0 4px 12px rgba(3, 105, 161, 0.4);
         }
 
         button:hover { 
@@ -101,7 +102,6 @@
         <h2>نموذج التسجيل والمتابعة</h2>
         
         <form action="https://formspree.io/f/xykveblw" method="POST">
-            
             <label for="name">الاسم الكامل:</label>
             <input type="text" id="name" name="الاسم" placeholder="أدخل اسمك هنا" required>
 
