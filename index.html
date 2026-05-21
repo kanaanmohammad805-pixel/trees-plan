@@ -12,24 +12,26 @@
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            color: white; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
+            /* التوسيط الكامل */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        /* الصندوق الذي يحتوي النموذج أو الاختيارات */
         .box { 
-            background: rgba(15, 23, 42, 0.85); /* خلفية داكنة شفافة */
+            background: rgba(15, 23, 42, 0.85); 
             padding: 30px; 
             border-radius: 20px; 
             width: 320px; 
             text-align: center; 
             box-shadow: 0 10px 32px rgba(0,0,0,0.7);
-            backdrop-filter: blur(6px); /* تأثير زجاجي */
+            backdrop-filter: blur(6px);
             border: 1px solid rgba(255,255,255,0.1);
+            color: white;
         }
 
         input { 
@@ -60,7 +62,7 @@
 
         .btn { background: #38bdf8; color: white; margin-top: 15px; }
         .hidden { display: none; }
-        h2 { margin-bottom: 20px; color: #ffffff; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
+        h2 { color: #ffffff; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
