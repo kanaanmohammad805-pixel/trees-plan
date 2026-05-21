@@ -1,38 +1,19 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: #0f172a; 
-            color: white; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; margin: 0; 
-        }
-        .option-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid #38bdf8;
-            color: white;
-            padding: 20px 40px;
-            margin: 10px;
-            width: 300px;
-            text-align: center;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-        .option-btn:hover { background: #0369a1; }
-    </style>
-</head>
-<body>
-    <h1>اختر المسار المفضل لديك:</h1>
-    <div class="option-btn" onclick="location.href='electronic.html'">الجانب الإلكتروني</div>
-    <div class="option-btn" onclick="location.href='mechanical.html'">الجانب الميكانيكي</div>
-    <div class="option-btn" onclick="location.href='programming.html'">الجانب البرمجي</div>
-</body>
-</html>
+<form action="https://formspree.io/f/xykveblw" method="POST">
+    <h2>نموذج التسجيل والمتابعة</h2>
+    
+    <label>الاسم الثلاثي:</label>
+    <input type="text" name="الاسم الثلاثي" placeholder="أدخل اسمك الثلاثي" required>
+
+    <label>السنة الدراسية:</label>
+    <input type="text" name="السنة الدراسية" placeholder="أدخل سنتك الدراسية" required>
+
+    <label>رقم الهاتف:</label>
+    <input type="tel" name="رقم الهاتف" placeholder="07xxxxxxxx" required>
+
+    <label>البريد الإلكتروني:</label>
+    <input type="email" name="الايميل" placeholder="your-email@example.com" required>
+
+    <input type="hidden" name="_next" value="رابط_صفحتك_الثانية.html">
+
+    <button type="submit">متابعة إلى الاختيارات</button>
+</form>
