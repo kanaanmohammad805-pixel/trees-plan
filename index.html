@@ -1,22 +1,23 @@
 <script>
-    // تخزين بيانات النموذج الأولي في متغير
-    let formData = {};
+    // متغير لتخزين البيانات الأساسية
+    let userData = {};
 
     const form = document.getElementById('contactForm');
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        // حفظ بيانات المستخدم في الكائن
-        const data = new FormData(form);
-        data.forEach((value, key) => { formData[key] = value; });
+        // حفظ بيانات النموذج الأول
+        const formData = new FormData(form);
+        userData = Object.fromEntries(formData.entries());
         
         document.getElementById('form-section').style.display = 'none';
         document.getElementById('options-section').style.display = 'block';
     });
 
     function showDetail(title, imgSrc, levels) {
-        formData['التخصص'] = title; // إضافة التخصص للبيانات
+        userData['التخصص'] = title; // إضافة التخصص
         document.getElementById('detail-title').innerText = title;
         document.getElementById('detail-image').src = imgSrc;
+        
         const container = document.getElementById('levels-container');
         container.innerHTML = '';
         
@@ -25,13 +26,12 @@
             div.className = 'level-item';
             div.innerText = level;
             div.onclick = function() {
-                const inputBox = document.getElementById('material-input-box');
                 if (level === 'Level 3' || level === 'Level 4') {
                     alert("عذراً، هذا المستوى غير متاح الآن.");
-                    inputBox.style.display = 'none';
+                    document.getElementById('material-input-box').style.display = 'none';
                 } else {
-                    formData['المستوى'] = level; // حفظ المستوى
-                    inputBox.style.display = 'block';
+                    userData['المستوى'] = level;
+                    document.getElementById('material-input-box').style.display = 'block';
                 }
             };
             container.appendChild(div);
@@ -42,21 +42,28 @@
 
     function saveMaterial() {
         const mat = document.getElementById('user-material').value;
-        if(mat) {
-            formData['المادة_المختارة'] = mat;
-            
-            // إرسال البيانات النهائية إلى Formspree
-            fetch('https://formspree.io/f/xykveblw', {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-            })
-            .then(() => {
+        if(!mat) { alert("يرجى كتابة المادة"); return; }
+        
+        userData['المادة_المختارة'] = mat;
+
+        // إرسال البيانات النهائية
+        const finalForm = new FormData();
+        for (let key in userData) {
+            finalForm.append(key, userData[key]);
+        }
+
+        fetch('https://formspree.io/f/xykveblw', {
+            method: 'POST',
+            body: finalForm,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(response => {
+            if (response.ok) {
                 alert("تم إرسال طلبك بنجاح!");
                 location.reload();
-            });
-        } else {
-            alert("يرجى كتابة اسم المادة");
-        }
+            } else {
+                alert("حدث خطأ، يرجى المحاولة مرة أخرى.");
+            }
+        });
     }
 </script>
