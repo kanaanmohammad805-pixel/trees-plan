@@ -6,23 +6,39 @@
     <style>
         body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
         .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; }
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
+        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #0ea5e9; }
         .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
         .hidden { display: none; }
         
         /* تنسيق الصناديق */
-        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
         .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
         .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
         .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
         .level-item:nth-child(4) { background: #4a2d5f; border-color: #7e22ce; }
         .level-item:hover { opacity: 0.8; transform: scale(1.05); }
+        
+        /* صندوق المادة */
+        #material-box { margin-top: 20px; padding: 15px; background: #1e293b; border-radius: 10px; border: 1px solid #38bdf8; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="options-section" class="box">
+    <div id="form-section" class="box">
+        <form id="contactForm" action="https://formspree.io/f/xykveblw" method="POST">
+            <h2>نموذج التسجيل</h2>
+            <input type="text" name="الاسم" placeholder="الاسم الثلاثي" required>
+            <input type="text" name="السنة" placeholder="السنة الدراسية" required>
+            <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
+            <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
+            <button type="submit" class="btn">متابعة إلى الاختيارات</button>
+        </form>
+    </div>
+
+    <div id="options-section" class="box hidden">
         <h2>اختر التخصص:</h2>
         <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الإلكتروني</button>
         <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الميكانيكي</button>
@@ -31,25 +47,47 @@
 
     <div id="detail-section" class="box hidden">
         <h2 id="detail-title"></h2>
-        <h3 id="instruction-text" style="color: #38bdf8; margin-bottom: 5px;">اختار احدى مواد المستوى المراد</h3>
+        <h3 style="color: #38bdf8; margin-bottom: 15px;">اختار احدى مواد المستوى المراد</h3>
         <img id="detail-image" src="" class="detail-img">
-        
-        <h3 style="margin-top: 25px; color: #38bdf8;">اختار واحدة من التخصصات</h3>
-        
         <div class="levels-grid" id="levels-container"></div>
-        <button class="btn" style="background:#475569; margin-top:25px" onclick="location.reload()">العودة</button>
+        
+        <div id="material-box">
+            <h3 id="material-name" style="margin:0;"></h3>
+        </div>
+        
+        <button class="btn" style="background:#475569; margin-top:25px" onclick="location.reload()">العودة للرئيسية</button>
     </div>
 
     <script>
+        // هنا حدد موادك، أي مستوى غير موجود هنا سيظهر "غير متاح الآن"
+        const availableMaterials = {
+            "Level 1-4": "مادة مقدمة في الأساسيات",
+            "Level 2": "مادة الأنظمة المتقدمة"
+        };
+
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            fetch(form.action, { method: 'POST', body: new FormData(form) });
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('options-section').style.display = 'block';
+        });
+
         function showDetail(title, imgSrc, levels) {
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-image').src = imgSrc;
             const container = document.getElementById('levels-container');
             container.innerHTML = '';
+            
             levels.forEach(level => {
                 const div = document.createElement('div');
                 div.className = 'level-item';
                 div.innerText = level;
+                div.onclick = function() {
+                    const box = document.getElementById('material-box');
+                    document.getElementById('material-name').innerText = availableMaterials[level] || "غير متاح الآن";
+                    box.style.display = 'block';
+                };
                 container.appendChild(div);
             });
             document.getElementById('options-section').style.display = 'none';
