@@ -32,7 +32,7 @@
             <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
             <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
             <input type="hidden" name="المادة_المختارة" id="hidden-material">
-            <button type="submit" class="btn">إرسال البيانات</button>
+            <button type="submit" class="btn">متابعة</button>
         </form>
     </div>
 
@@ -49,33 +49,21 @@
         <div class="levels-grid" id="levels-container"></div>
         
         <div id="material-input-box">
-            <input type="text" id="user-material" placeholder="اكتب اسم المادة التي تريدها...">
-            <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ المادة المحددة</button>
+            <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
+            <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ</button>
         </div>
         
-        <button class="btn" style="background:#475569; margin-top:20px" onclick="location.reload()">العودة للرئيسية</button>
+        <button class="btn" style="background:#475569; margin-top:20px" onclick="location.reload()">العودة</button>
     </div>
 
     <script>
         const form = document.getElementById('contactForm');
-        
-        // التحقق عند الإرسال من أن المادة قد تم حفظها
         form.addEventListener('submit', function(e) {
-            const savedMaterial = document.getElementById('hidden-material').value;
-            if (!savedMaterial) {
-                e.preventDefault();
-                alert("يرجى اختيار مستوى وحفظ اسم المادة أولاً!");
-                return;
-            }
-            
             e.preventDefault();
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            }).then(() => {
-                alert("تم إرسال بياناتك بنجاح!");
-                location.reload(); // إعادة تحميل الصفحة بعد الإرسال الناجح
+            fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+            .then(() => {
+                document.getElementById('form-section').style.display = 'none';
+                document.getElementById('options-section').style.display = 'block';
             });
         });
 
@@ -89,8 +77,10 @@
                 const div = document.createElement('div');
                 div.className = 'level-item';
                 div.innerText = level;
+                
                 div.onclick = function() {
                     const inputBox = document.getElementById('material-input-box');
+                    // التحقق من المستوى
                     if (level === 'Level 3' || level === 'Level 4') {
                         alert("عذراً، هذا المستوى غير متاح الآن.");
                         inputBox.style.display = 'none';
@@ -108,9 +98,7 @@
             const mat = document.getElementById('user-material').value;
             if(mat) {
                 document.getElementById('hidden-material').value = mat;
-                alert("تم حفظ المادة: " + mat + " بنجاح!");
-            } else {
-                alert("يرجى كتابة اسم المادة!");
+                alert("تم حفظ المادة: " + mat);
             }
         }
     </script>
