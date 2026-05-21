@@ -5,7 +5,6 @@
     <title>منصة التخصصات</title>
     <style>
         body { 
-            /* استبدل الرابط أدناه برابط الصورة الخاص بك من GitHub */
             background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
                         url('https://raw.githubusercontent.com/username/repo/main/image_8de6ef.png'); 
             background-size: cover;
@@ -20,28 +19,52 @@
             font-family: sans-serif; 
         }
 
-        .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; text-align: center; border: 1px solid #38bdf8; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        
-        /* جعل الحقول تأخذ سطر كامل وعمودية */
+        .box { 
+            background: rgba(15, 23, 42, 0.9); 
+            padding: 30px; 
+            border-radius: 20px; 
+            width: 90%; 
+            max-width: 500px; 
+            text-align: center; 
+            border: 1px solid #38bdf8; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        }
+
+        /* تنسيق النموذج ليظهر عمودياً */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         input { 
             width: 100%; 
             padding: 12px; 
-            margin: 10px 0; 
             border-radius: 8px; 
             border: 1px solid #334155; 
             background: #1e293b; 
             color: white; 
             box-sizing: border-box; 
-            display: block; 
         }
 
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; }
+        .btn { 
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 8px; 
+            border: none; 
+            background: #38bdf8; 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        
         .btn:hover { transform: scale(1.02); filter: brightness(1.2); }
-
         .hidden { display: none; }
-        .detail-img { width: 100%; border-radius: 12px; margin: 10px 0; border: 3px solid #38bdf8; }
+        
+        .detail-img { width: 100%; max-width: 300px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
         .levels-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; }
+        .level-item { padding: 15px; border-radius: 10px; border: 2px solid #38bdf8; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -53,17 +76,19 @@
             <input type="text" name="السنة" placeholder="السنة الدراسية" required>
             <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
             <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
+            
             <input type="hidden" name="التخصص" id="hidden-takhassos">
             <input type="hidden" name="المستوى" id="hidden-level">
             <input type="hidden" name="المادة" id="hidden-material">
+            
             <button type="submit" class="btn">متابعة</button>
         </form>
     </div>
 
     <div id="options-section" class="box hidden">
         <h2>اختر التخصص:</h2>
-        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png')">الجانب الإلكتروني</button>
-        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png')">الجانب الميكانيكي</button>
+        <button class="btn" style="margin-bottom: 10px;" onclick="showDetail('الجانب الإلكتروني', '111.png')">الجانب الإلكتروني</button>
+        <button class="btn" style="margin-bottom: 10px;" onclick="showDetail('الجانب الميكانيكي', '3333.png')">الجانب الميكانيكي</button>
         <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png')">الجانب البرمجي</button>
     </div>
 
@@ -71,11 +96,11 @@
         <h2 id="detail-title"></h2>
         <img id="detail-image" src="" class="detail-img">
         <div class="levels-grid" id="levels-container"></div>
-        <div id="material-input-box" class="hidden">
+        <div id="material-input-box" class="hidden" style="margin-top: 20px;">
             <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
-            <button class="btn" style="background:#22c55e" onclick="finish()">إرسال التسجيل</button>
+            <button class="btn" style="background:#22c55e; margin-top: 10px;" onclick="finish()">إرسال التسجيل</button>
         </div>
-        <button class="btn" style="background:#475569" onclick="location.reload()">العودة</button>
+        <button class="btn" style="background:#475569; margin-top: 10px;" onclick="location.reload()">العودة</button>
     </div>
 
     <script>
