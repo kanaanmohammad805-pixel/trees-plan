@@ -2,92 +2,52 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج التسجيل</title>
     <style>
-        body { 
-            background-image: url('Gemini_Generated_Image_qqcdfpqqcdfpqqcd.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: sans-serif;
-            color: white;
-        }
-
-        /* الصندوق أصبح يتوسع تلقائياً بحد أقصى 800 بكسل */
-        .box { 
-            background: rgba(15, 23, 42, 0.9); 
-            padding: 30px; 
-            border-radius: 20px; 
-            width: 90%; 
-            max-width: 800px; 
-            text-align: center; 
-            box-shadow: 0 10px 32px rgba(0,0,0,0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            margin: 20px;
-        }
-
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
-        
+        body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
+        .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; }
         .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; display: block; font-size: 16px; }
-        
         .hidden { display: none; }
-
-        /* تنسيق الصورة لتكون كبيرة */
-        .detail-img {
-            width: 100%;
-            max-width: 750px; 
-            height: auto;
-            border-radius: 12px;
-            margin: 20px auto;
-            border: 3px solid #38bdf8;
-            display: block;
-        }
+        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 20px auto; border: 3px solid #38bdf8; display: block; }
+        
+        /* تنسيق صناديق الـ 4 خيارات */
+        .levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 20px; }
+        .level-item { background: #1e293b; padding: 15px; border-radius: 10px; border: 1px solid #475569; }
     </style>
 </head>
 <body>
 
-    <div id="form-section" class="box">
-        <form id="contactForm" action="https://formspree.io/f/xykveblw" method="POST">
-            <h2>نموذج التسجيل</h2>
-            <input type="text" name="الاسم" placeholder="الاسم الثلاثي" required>
-            <input type="text" name="السنة" placeholder="السنة الدراسية" required>
-            <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
-            <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
-            <button type="submit" class="btn">متابعة إلى الاختيارات</button>
-        </form>
-    </div>
-
-    <div id="options-section" class="box hidden">
+    <div id="options-section" class="box">
         <h2>اختر التخصص:</h2>
-        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png')">الجانب الإلكتروني</button>
-        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png')">الجانب الميكانيكي</button>
-        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png')">الجانب البرمجي</button>
+        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png', ['Level 1', 'Level 2', 'Level 3', 'Level 4'])">الجانب الإلكتروني</button>
+        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333', ['ميكانيكا 1', 'ميكانيكا 2', 'ميكانيكا 3', 'ميكانيكا 4'])">الجانب الميكانيكي</button>
+        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png', ['كود 1', 'كود 2', 'كود 3', 'كود 4'])">الجانب البرمجي</button>
     </div>
 
     <div id="detail-section" class="box hidden">
         <h2 id="detail-title"></h2>
         <img id="detail-image" src="" class="detail-img">
-        <button class="btn" onclick="location.reload()">العودة للبداية</button>
+        
+        <div class="levels-grid" id="levels-container">
+            </div>
+
+        <button class="btn" style="margin-top:20px" onclick="location.reload()">العودة</button>
     </div>
 
     <script>
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            fetch(form.action, { method: 'POST', body: new FormData(form) });
-            document.getElementById('form-section').style.display = 'none';
-            document.getElementById('options-section').style.display = 'block';
-        });
-
-        function showDetail(title, imgSrc) {
+        function showDetail(title, imgSrc, levels) {
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-image').src = imgSrc;
+            
+            const container = document.getElementById('levels-container');
+            container.innerHTML = ''; // تنظيف الصناديق القديمة
+            
+            levels.forEach(level => {
+                const div = document.createElement('div');
+                div.className = 'level-item';
+                div.innerText = level;
+                container.appendChild(div);
+            });
+
             document.getElementById('options-section').style.display = 'none';
             document.getElementById('detail-section').style.display = 'block';
         }
