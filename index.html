@@ -5,31 +5,18 @@
     <title>منصة التخصصات</title>
     <style>
         body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
-        .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
+        .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; }
         .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #0ea5e9; }
-        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
-        .hidden { display: none; }
+        .hidden { display: none !important; } /* إخفاء إجباري */
         
         .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        
-        /* التعديل هنا: إضافة الـ Animation */
-        .level-item { 
-            padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; 
-            font-weight: bold; transition: all 0.4s ease; 
-        }
-        .level-item:hover { 
-            transform: translateY(-10px) scale(1.05); /* ارتفاع وتكبير بسيط */
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); /* ظل خفيف */
-            opacity: 0.9;
-        }
-
+        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: all 0.4s ease; }
+        .level-item:hover { transform: translateY(-10px) scale(1.05); }
         .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
         .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
         .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
         .level-item:nth-child(4) { background: #4a2d5f; border-color: #7e22ce; }
-        
         #material-input-box { margin-top: 20px; display: none; }
     </style>
 </head>
@@ -49,56 +36,52 @@
 
     <div id="options-section" class="box hidden">
         <h2>اختر التخصص:</h2>
-        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الإلكتروني</button>
-        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الميكانيكي</button>
-        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب البرمجي</button>
+        <button class="btn" onclick="showOptions()">الجانب الإلكتروني</button>
     </div>
 
     <div id="detail-section" class="box hidden">
         <h2 id="detail-title"></h2>
-        <img id="detail-image" src="" class="detail-img">
         <div class="levels-grid" id="levels-container"></div>
-        
         <div id="material-input-box">
             <input type="text" id="user-material" placeholder="اكتب اسم المادة...">
-            <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ المادة المحددة</button>
+            <button class="btn" onclick="saveMaterial()">حفظ المادة</button>
         </div>
-        
-        <button class="btn" style="background:#475569; margin-top:20px" onclick="location.reload()">العودة للرئيسية</button>
+        <button class="btn" style="background:#475569" onclick="location.reload()">العودة</button>
     </div>
 
     <script>
         const form = document.getElementById('contactForm');
+        
+        // عند إرسال النموذج، ننتقل للاختيارات
         form.addEventListener('submit', function(e) {
-            const savedMaterial = document.getElementById('hidden-material').value;
-            if (!savedMaterial) { e.preventDefault(); alert("يرجى اختيار مستوى وحفظ المادة أولاً!"); return; }
             e.preventDefault();
-            fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-            .then(() => { alert("تم الإرسال!"); location.reload(); });
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('options-section').classList.remove('hidden');
         });
 
-        function showDetail(title, imgSrc, levels) {
-            document.getElementById('detail-title').innerText = title;
-            document.getElementById('detail-image').src = imgSrc;
+        function showOptions() {
+            document.getElementById('options-section').classList.add('hidden');
+            document.getElementById('detail-section').classList.remove('hidden');
+            // هنا نحدد المستويات
             const container = document.getElementById('levels-container');
-            container.innerHTML = '';
-            levels.forEach(level => {
+            ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'].forEach(lvl => {
                 const div = document.createElement('div');
                 div.className = 'level-item';
-                div.innerText = level;
-                div.onclick = function() {
-                    if (level === 'Level 3' || level === 'Level 4') { alert("غير متاح الآن."); document.getElementById('material-input-box').style.display = 'none'; }
-                    else { document.getElementById('material-input-box').style.display = 'block'; }
+                div.innerText = lvl;
+                div.onclick = () => {
+                    if(lvl === 'Level 3' || lvl === 'Level 4') alert("غير متاح");
+                    else document.getElementById('material-input-box').style.display = 'block';
                 };
                 container.appendChild(div);
             });
-            document.getElementById('options-section').style.display = 'none';
-            document.getElementById('detail-section').style.display = 'block';
         }
 
         function saveMaterial() {
             const mat = document.getElementById('user-material').value;
-            if(mat) { document.getElementById('hidden-material').value = mat; alert("تم حفظ المادة: " + mat); }
+            if(mat) {
+                document.getElementById('hidden-material').value = mat;
+                alert("تم حفظ المادة، يمكنك الآن العودة وإكمال الإرسال أو إنهاء الطلب.");
+            }
         }
     </script>
 </body>
