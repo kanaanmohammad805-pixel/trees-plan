@@ -7,13 +7,12 @@
         body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
         .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; }
         .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; }
-        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 20px auto; border: 3px solid #38bdf8; display: block; }
+        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
         .hidden { display: none; }
-
-        /* تنسيق صناديق المستويات مع الألوان المخصصة */
-        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: 0.3s; }
         
+        /* تنسيق الصناديق */
+        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
         .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
         .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
@@ -32,9 +31,13 @@
 
     <div id="detail-section" class="box hidden">
         <h2 id="detail-title"></h2>
+        <h3 id="instruction-text" style="color: #38bdf8; margin-bottom: 5px;">اختار احدى مواد المستوى المراد</h3>
         <img id="detail-image" src="" class="detail-img">
+        
+        <h3 style="margin-top: 25px; color: #38bdf8;">اختار واحدة من التخصصات</h3>
+        
         <div class="levels-grid" id="levels-container"></div>
-        <button class="btn" style="background:#475569; margin-top:20px" onclick="location.reload()">العودة</button>
+        <button class="btn" style="background:#475569; margin-top:25px" onclick="location.reload()">العودة</button>
     </div>
 
     <script>
