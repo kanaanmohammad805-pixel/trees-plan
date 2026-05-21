@@ -1,66 +1,26 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>منصة التخصصات</title>
-    <style>
-        body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
-        .box { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; text-align: center; border: 1px solid #38bdf8; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
-        .btn { width: 100%; padding: 14px; margin-top: 10px; border-radius: 8px; border: none; background: #38bdf8; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #0ea5e9; }
-        .detail-img { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px auto; border: 3px solid #38bdf8; display: block; }
-        .hidden { display: none; }
-        
-        .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .level-item { padding: 15px; border-radius: 10px; border: 2px solid; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .level-item:nth-child(1) { background: #1a4d46; border-color: #2d8a7d; }
-        .level-item:nth-child(2) { background: #6b2121; border-color: #b91c1c; }
-        .level-item:nth-child(3) { background: #71641a; border-color: #ca8a04; }
-        .level-item:nth-child(4) { background: #4a2d5f; border-color: #7e22ce; }
-        
-        /* صندوق إدخال المادة */
-        #material-input-box { margin-top: 20px; display: none; }
-    </style>
-</head>
-<body>
-
-    <div id="form-section" class="box">
-        <form id="contactForm" action="https://formspree.io/f/xykveblw" method="POST">
-            <h2>نموذج التسجيل</h2>
-            <input type="text" name="الاسم" placeholder="الاسم الثلاثي" required>
-            <input type="text" name="السنة" placeholder="السنة الدراسية" required>
-            <input type="tel" name="الهاتف" placeholder="رقم الهاتف" required>
-            <input type="email" name="الايميل" placeholder="البريد الإلكتروني" required>
-            <input type="hidden" name="المادة_المختارة" id="hidden-material">
-            <button type="submit" class="btn">متابعة إلى الاختيارات</button>
-        </form>
-    </div>
-
-    <div id="options-section" class="box hidden">
-        <h2>اختر التخصص:</h2>
-        <button class="btn" onclick="showDetail('الجانب الإلكتروني', '111.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الإلكتروني</button>
-        <button class="btn" onclick="showDetail('الجانب الميكانيكي', '3333.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب الميكانيكي</button>
-        <button class="btn" onclick="showDetail('الجانب البرمجي', '2222.png', ['Level 1-4', 'Level 2', 'Level 3', 'Level 4'])">الجانب البرمجي</button>
-    </div>
-
-    <div id="detail-section" class="box hidden">
-        <h2 id="detail-title"></h2>
-        <h3 style="color: #38bdf8; margin-bottom: 15px;">اختار المستوى المراد</h3>
-        <img id="detail-image" src="" class="detail-img">
-        <div class="levels-grid" id="levels-container"></div>
-        
-        <div id="material-input-box">
-            <input type="text" id="user-material" placeholder="اكتب اسم المادة التي تريدها هنا...">
-            <button class="btn" style="background:#22c55e" onclick="saveMaterial()">حفظ المادة المحددة</button>
-        </div>
-        
-        <button class="btn" style="background:#475569; margin-top:10px" onclick="location.reload()">العودة للرئيسية</button>
-    </div>
-
-    <script>
+<script>
         const form = document.getElementById('contactForm');
         
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // يمنع المتصفح من فتح صفحة formspree
+            
+            // إرسال البيانات في الخلفية
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    // إخفاء النموذج وإظهار الاختيارات
+                    document.getElementById('form-section').style.display = 'none';
+                    document.getElementById('options-section').style.display = 'block';
+                } else {
+                    alert('حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.');
+                }
+            });
+        });
+
+        // باقي الدالة كما هي
         function showDetail(title, imgSrc, levels) {
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-image').src = imgSrc;
@@ -71,11 +31,14 @@
                 const div = document.createElement('div');
                 div.className = 'level-item';
                 div.innerText = level;
+                
+                // إضافة وظيفة الحقل الحر
                 div.onclick = function() {
                     document.getElementById('material-input-box').style.display = 'block';
                 };
                 container.appendChild(div);
             });
+            
             document.getElementById('options-section').style.display = 'none';
             document.getElementById('detail-section').style.display = 'block';
         }
@@ -90,5 +53,3 @@
             }
         }
     </script>
-</body>
-</html>
