@@ -2,113 +2,37 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>خطط شجرية ومفاجئات تقنية بانتظاركم</title>
     <style>
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            background-image: url('2222.png'); 
-            background-size: cover; 
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        .container {
-            text-align: center;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #ffffff;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        form { 
-            background: rgba(15, 23, 42, 0.85);
-            padding: 25px; 
-            border-radius: 16px; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: inline-block; 
-            width: 320px; 
-            text-align: right; 
-        }
-
-        label { 
-            display: block; 
-            margin-top: 12px; 
-            font-weight: bold; 
-            color: #e2e8f0;
-            font-size: 13px;
-        }
-
-        input { 
-            width: 100%; 
-            padding: 10px; 
-            margin-top: 5px; 
-            box-sizing: border-box; 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 8px; 
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #38bdf8; 
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        button { 
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #0f172a; 
             color: white; 
-            border: none; 
-            padding: 12px; 
-            margin-top: 20px; 
-            width: 100%; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            font-weight: bold;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; margin: 0; 
+        }
+        .option-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #38bdf8;
+            color: white;
+            padding: 20px 40px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
             transition: 0.3s;
         }
-
-        button:hover { 
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-        }
+        .option-btn:hover { background: #0369a1; }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h2>خطط شجرية ومفاجئات تقنية بانتظاركم</h2>
-        
-        <form action="https://formspree.io/f/xykveblw" method="POST">
-            <label for="name">الاسم الثلاثي:</label>
-            <input type="text" id="name" name="الاسم الثلاثي" placeholder="أدخل اسمك الثلاثي" required>
-
-            <label for="year">السنة الدراسية:</label>
-            <input type="text" id="year" name="السنة الدراسية" placeholder="مثلاً: السنة الثالثة" required>
-
-            <label for="phone">رقم الهاتف:</label>
-            <input type="tel" id="phone" name="رقم الهاتف" placeholder="07xxxxxxxx" required>
-
-            <label for="email">البريد الإلكتروني:</label>
-            <input type="email" id="email" name="الايميل" placeholder="email@example.com" required>
-
-            <button type="submit">إرسال البيانات</button>
-        </form>
-    </div>
-
+    <h1>اختر المسار المفضل لديك:</h1>
+    <div class="option-btn" onclick="location.href='electronic.html'">الجانب الإلكتروني</div>
+    <div class="option-btn" onclick="location.href='mechanical.html'">الجانب الميكانيكي</div>
+    <div class="option-btn" onclick="location.href='programming.html'">الجانب البرمجي</div>
 </body>
 </html>
